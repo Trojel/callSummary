@@ -30,7 +30,7 @@ headers = {
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"status": "success", "message": "Webhook received"}
 
 
 @app.post("/webhook")

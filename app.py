@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 import os
 import whisper
 import requests
-from openai import OpenAI
 from fastapi import FastAPI, Request, BackgroundTasks
 from utils import download_mp3_in_memory, transcribe_audio, generate_summary
 
@@ -73,10 +72,4 @@ def attach_hubspot_note(call_id: int, url: str):
         "status_code": response.status_code,
         "response_data": response.json()  # Assuming the response is in JSON format
     }
-
-
-
-
-
-
 

@@ -5,6 +5,7 @@ import whisper
 import requests
 from fastapi import FastAPI, Request, BackgroundTasks
 from utils import download_mp3_in_memory, transcribe_audio, generate_summary
+import uvicorn
 
 load_dotenv()
 
@@ -73,3 +74,6 @@ def attach_hubspot_note(call_id: int, url: str):
         "response_data": response.json()  # Assuming the response is in JSON format
     }
 
+
+if __name__ == "__main__":
+    uvicorn.run("app:app", port=8000, reload=True)

@@ -29,7 +29,7 @@ def generate_summary(transcription):
     completion = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                    {"role": "system", "content": "You are a helpful assistant at the video commerce software company Sprii. Your job is to generate a short point summary of the provided phone call transcript between a Sprii customer support agent and a customer."},
+                    {"role": "system", "content": "You are a helpful assistant at the video commerce software company Sprii. Your job is to generate a short point summary of the provided phone call transcript between a Sprii customer support agent and a customer. You must also provide a brief analysis of the customer's sentiment and 'tag' if the problem/query was resolved or unresolved."},
                     {
                             "role": "user",
                             "content": transcription

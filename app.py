@@ -6,13 +6,13 @@ import requests
 from fastapi import FastAPI, Request, BackgroundTasks
 from utils import download_mp3_in_memory, transcribe_audio, generate_summary
 import uvicorn
+from contextlib import asynccontextmanager
+import asyncio
 
 load_dotenv()
 
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
-model = whisper.load_model("turbo")
 
-app = FastAPI()
 # Your API credentials
 api_id = os.getenv("aircall_app_token")
 api_token = os.getenv("aircall_api_token")
@@ -29,6 +29,27 @@ headers = {
     "Content-Type": "application/json"
 }
 
+# Global variable to hold the model
+model = None
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global model
+    await asyncio.sleep(10)  # Delay loading the model by 10 seconds
+    # Startup: Load the Whisper model
+    print("Loading Whisper model on startup...")
+    model = whisper.load_model("base")
+    print("Whisper model loaded.")
+
+    yield  # Application will run here
+
+    # Shutdown: Clean up resources if needed
+    print("Shutting down application...")
+    model = None
+    print("Whisper model unloaded.")
+
+app = FastAPI(lifespan=lifespan)
+
 @app.get("/")
 def read_root():
     return {"status": "success", "message": "Webhook received"}
@@ -40,6 +61,9 @@ async def webhook_endpoint(request: Request, background_tasks: BackgroundTasks):
     print(f"Webhook received: {body}")
     url = body["data"]["recording_url"]
     call_id = body["data"]["id"]
+
+    if model is None:
+        return {"status": "error", "message": "Model not loaded yet."}
 
     # Make a POST request to Hubspot API
     background_tasks.add_task(attach_hubspot_note, call_id = call_id, url = url)
@@ -53,6 +77,9 @@ async def webhook_endpoint(request: Request, background_tasks: BackgroundTasks):
 def attach_hubspot_note(call_id: int, url: str):
     # The URL you want to send the POST request to
     urlEndpoint = f"https://api.aircall.io/v1/calls/{call_id}/comments"
+
+    if model is None:
+        return {"status": "error", "message": "Model not loaded yet."}
 
     audio_data = download_mp3_in_memory(url)
     transcription = transcribe_audio(audio_data, model)

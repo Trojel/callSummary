@@ -59,7 +59,7 @@ def read_root():
 async def webhook_endpoint(request: Request, background_tasks: BackgroundTasks):
     body = await request.json()  # Get the JSON payload from the webhook
     print(f"Webhook received: {body}")
-    url = body["data"]["recording_url"]
+    url = body["data"]["recording"]
     call_id = body["data"]["id"]
 
     if model is None:

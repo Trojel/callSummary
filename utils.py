@@ -22,7 +22,6 @@ def transcribe_audio(audio_data, model):
         model="whisper-1",
         file=audio_data
     )
-    print(transcription.text)
     return transcription.text
 
 
@@ -37,5 +36,4 @@ def generate_summary(transcription):
                     }
             ]
     )
-    print(completion.choices[0].message.content)
     return completion.choices[0].message.content

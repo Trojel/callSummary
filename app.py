@@ -72,7 +72,6 @@ async def webhook_endpoint(request: Request, background_tasks: BackgroundTasks):
     return {"status": "success", "message": "Webhook received"}
 
 
-
 @app.post("/make-post-request")
 def attach_hubspot_note(call_id: int, url: str):
     # The URL you want to send the POST request to
@@ -95,12 +94,28 @@ def attach_hubspot_note(call_id: int, url: str):
     # Make the POST request
     response = requests.post(urlEndpoint, json=data, headers=headers)
     
-    # Return the response from the external server
+    #Return the response from the external server
     return {
         "status_code": response.status_code,
         "response_data": response.json()  # Assuming the response is in JSON format
     }
 
+
+@app.get("/health")
+def health_check():
+    return {"status": "success", "message": "Service is running"}
+
+@app.get("/tags")
+def get_tags():
+    response = requests.get("https://api.aircall.io/v1/tags", headers=headers)
+
+    # Extract the JSON data from the response
+    data = response.json()
+
+    # Extract all the 'name' values from the 'tags' array that does not have a 'description'
+    tag_names = [tag['name'] for tag in data['tags'] if tag['description'] is None]
+    
+    return tag_names
 
 if __name__ == "__main__":
     uvicorn.run("app:app", port=8000, reload=True)

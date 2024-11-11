@@ -1,9 +1,6 @@
-import whisper
 from fastapi import FastAPI
 from utils import *
 import uvicorn
-from contextlib import asynccontextmanager
-import asyncio
 from api import testing, webhook
 
 app = FastAPI()

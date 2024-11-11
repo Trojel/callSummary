@@ -1,31 +1,10 @@
 import requests
 from io import BytesIO
 from openai import OpenAI
-import whisper
-from dotenv import load_dotenv
-import os
-import requests
-import base64
+from config.settings import OPENAI_API_KEY
+from config.headers import AIRCALL_HEADERS
 
-load_dotenv()
-
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-# Your API credentials
-api_id = os.getenv("aircall_app_token")
-api_token = os.getenv("aircall_api_token")
-
-# Concatenate the API ID and token with a colon
-credentials = f"{api_id}:{api_token}"
-
-# Encode the credentials using Base64
-encoded_credentials = base64.b64encode(credentials.encode()).decode()
-
-# Construct the headers with the Authorization header
-headers = {
-    "Authorization": f"Basic {encoded_credentials}",
-    "Content-Type": "application/json"
-}
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Function to download MP3 file and store it in memory
 def download_mp3_in_memory(url):
@@ -35,17 +14,16 @@ def download_mp3_in_memory(url):
     return audio_data
 
 # Whisper transcription from in-memory file
-def transcribe_audio(audio_data, model):
+def transcribe_audio(audio_data):
     transcription = client.audio.transcriptions.create(
         model="whisper-1",
         file=audio_data
     )
     return transcription.text
 
-
 def generate_summary(transcription):
 
-    response = requests.get("https://api.aircall.io/v1/tags", headers=headers)
+    response = requests.get("https://api.aircall.io/v1/tags", headers=AIRCALL_HEADERS)
 
     # Extract the JSON data from the response
     data = response.json()

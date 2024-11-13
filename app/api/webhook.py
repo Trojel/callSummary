@@ -19,6 +19,6 @@ async def webhook_endpoint(request: Request, background_tasks: BackgroundTasks):
     background_tasks.add_task(process_call_summary, call_id, url)
 
     #Send notification to UK team slack channel
-    background_tasks.add_task(send_slack_message, "C07UCAW5RST", phone_number)
+    background_tasks.add_task(send_slack_message, "C07U57YU127", phone_number)
 
     return {"status": "success", "message": "Webhook received and processing started"}

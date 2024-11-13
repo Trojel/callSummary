@@ -1,10 +1,8 @@
 from fastapi import FastAPI
-from utils import *
-import uvicorn
-from api import testing, webhook
+from app.utils import *
+from app.api import testing, webhook  
 
 app = FastAPI()
-
 
 app.include_router(testing.router)
 app.include_router(webhook.router)

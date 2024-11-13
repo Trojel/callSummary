@@ -21,4 +21,4 @@ def get_tags_endpoint():
 
 @router.post("/TestSlackMessage")
 def test_hubspot_contact():
-    send_slack_message("C07UCAW5RST", "+44 782 436 7444")
+    send_slack_message("C07U57YU127", "+44 782 436 7444")

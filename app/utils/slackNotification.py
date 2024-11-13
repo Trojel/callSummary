@@ -23,7 +23,7 @@ def send_slack_message(channel, phone_number):
     response = requests.post("https://slack.com/api/chat.postMessage", headers=SLACK_HEADERS, json=data)
     response.raise_for_status()
     if response.status_code == 200:
-        print("Slack message sent successfully")
+        print("Slack message sent successfully" + response.text)
     else:
         print("Slack message failed to send" + response.text)
 

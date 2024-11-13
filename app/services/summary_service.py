@@ -1,7 +1,7 @@
 
-from utils.audio_processing import download_mp3_in_memory, transcribe_audio, generate_summary
-from utils.slackNotification import send_slack_message
-from services.external_services import attach_hubspot_note
+from app.utils.audio_processing import download_mp3_in_memory, transcribe_audio, generate_summary
+from app.utils.slackNotification import send_slack_message
+from app.services.external_services import attach_hubspot_note
 
 
 def process_call_summary(call_id, url):

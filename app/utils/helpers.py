@@ -1,5 +1,5 @@
 import requests
-from config.headers import AIRCALL_HEADERS
+from app.config.headers import AIRCALL_HEADERS
 
 def get_tags():
     response = requests.get("https://api.aircall.io/v1/tags", headers=AIRCALL_HEADERS)

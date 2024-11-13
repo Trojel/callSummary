@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from app.utils import *
 from app.api import testing, webhook  
 
 app = FastAPI()

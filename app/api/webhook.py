@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, BackgroundTasks
-from utils.slackNotification import send_slack_message
-from services.summary_service import process_call_summary
-from utils.audio_processing import *
+from app.utils.slackNotification import send_slack_message
+from app.services.summary_service import process_call_summary
+from app.utils.audio_processing import *
 
 
 

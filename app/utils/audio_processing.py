@@ -1,8 +1,8 @@
 import requests
 from io import BytesIO
 from openai import OpenAI
-from config.settings import OPENAI_API_KEY
-from config.headers import AIRCALL_HEADERS
+from app.config.settings import OPENAI_API_KEY
+from app.config.headers import AIRCALL_HEADERS
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 

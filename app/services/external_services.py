@@ -1,8 +1,8 @@
 from hubspot import HubSpot
 from hubspot.crm.contacts import ApiException, Filter, FilterGroup, PublicObjectSearchRequest
 import requests
-from config.headers import AIRCALL_HEADERS
-from config.settings import HUBSPOT_API_KEY
+from app.config.headers import AIRCALL_HEADERS
+from app.config.settings import HUBSPOT_API_KEY
 
 # Initialize the HubSpot client with your access token
 api_client = HubSpot(access_token=HUBSPOT_API_KEY)

@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Request, BackgroundTasks
-from utils.slackNotification import send_slack_message
-from utils.helpers import get_tags
+from fastapi import APIRouter
+from app.utils.slackNotification import send_slack_message
+from app.utils.helpers import get_tags
+
 
 
 router = APIRouter()  # Create a router instance

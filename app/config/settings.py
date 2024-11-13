@@ -1,6 +1,5 @@
 import os
 from dotenv import load_dotenv
-import base64
 
 load_dotenv()
 

@@ -1,6 +1,6 @@
 import requests
-from services.external_services import get_contactID, create_contact_url
-from config.headers import SLACK_HEADERS
+from app.services.external_services import get_contactID, create_contact_url
+from app.config.headers import SLACK_HEADERS
 import re
 
 

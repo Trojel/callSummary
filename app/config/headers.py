@@ -1,6 +1,6 @@
 from base64 import b64encode
 import base64
-from config.settings import AIRCALL_APP_TOKEN, AIRCALL_API_TOKEN, SLACK_BOT_TOKEN
+from app.config.settings import AIRCALL_APP_TOKEN, AIRCALL_API_TOKEN, SLACK_BOT_TOKEN
 
 
 credentials = f"{AIRCALL_APP_TOKEN}:{AIRCALL_API_TOKEN}"

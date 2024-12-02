@@ -4,7 +4,7 @@ from app.utils.slackNotification import send_slack_message
 from app.services.external_services import attach_hubspot_note
 
 
-def process_call_summary(call_id, url):
+def process_call_summary(call_id, url, phone_number):
     """Generates a transcription and summary, then sends them to Slack and HubSpot."""
 
     
@@ -15,3 +15,7 @@ def process_call_summary(call_id, url):
 
     # Step 2: Send summary to HubSpot
     attach_hubspot_note(call_id, summary)
+
+    # Step 3: Send summary to Slack
+    send_slack_message("C07U57YU127", phone_number, summary)
+

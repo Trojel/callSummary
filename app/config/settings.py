@@ -15,3 +15,6 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # HubSpot configuration
 HUBSPOT_API_KEY = os.getenv("HUBSPOT_API_KEY")
+
+# Postgres configuration
+DATABASE_URL = os.getenv("DATABASE_URL")

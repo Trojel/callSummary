@@ -1,6 +1,7 @@
 import requests
 from io import BytesIO
 from openai import OpenAI
+import json
 from app.config.settings import OPENAI_API_KEY
 from app.config.headers import AIRCALL_HEADERS
 
@@ -37,10 +38,13 @@ def generate_summary(transcription):
             {
                 "role": "system",
                 "content": '''You are a helpful assistant at the video commerce software company Sprii. 
-                Your job is to generate a short point summary of the provided phone call transcript 
-                between a Sprii customer support agent and a customer. You must also provide a brief 
-                analysis of the customer's sentiment and 'tag' if the problem/query was resolved or unresolved.
-                You must also add a 'tag' from the provided list of tags that best describes the call and resolution.'''
+                Your job is to generate a JSON object with the following keys: 
+                - "summary": a short point summary of the phone call transcript.
+                - "customer_sentiment": a brief analysis of the customer's sentiment.
+                - "resolution_status": whether the problem/query was resolved or unresolved. Can be "resolved" or "unresolved". 
+                - "tags": a tag from the provided list that best describes the call and resolution.
+
+                Always return valid JSON without any code block formatting like ```json.'''
             },
             {
                 "role": "user",
@@ -48,4 +52,11 @@ def generate_summary(transcription):
             }
         ]
     )
-    return completion.choices[0].message.content
+     # Parse the JSON response from GPT
+    response_text = completion.choices[0].message.content
+    try:
+        summary_data = json.loads(response_text)  # Convert JSON string to a Python dictionary
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Failed to parse JSON from GPT response: {e}\nResponse: {response_text}")
+
+    return summary_data

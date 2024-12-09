@@ -12,8 +12,10 @@ import datetime
 
 def handleDBObjects(db, phone_number: str, call_date: str, call_duration: str, call_summary: str, call_result: str):
     
-    contact = get_contact_info(phone_number)
-    company = get_company_from_contactID(contact["id"])
+    formatted_phone_number = phone_number.replace(" ", "")
+    contact = get_contact_info(formatted_phone_number)
+    if contact:
+        company = get_company_from_contactID(contact["id"])
 
     data = {
     "company_name": company["name"] if company else None,

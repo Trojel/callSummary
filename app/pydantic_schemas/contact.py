@@ -5,7 +5,7 @@ from typing import List, Optional
 
 class ContactBase(BaseModel):
     first_name: str
-    last_name: str
+    last_name: Optional[str] = None
     email: Optional[str] = None
     phone: str
     company_id: Optional[int] = None

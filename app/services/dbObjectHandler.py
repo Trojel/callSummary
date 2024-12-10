@@ -48,7 +48,7 @@ def handleDBObjects(db, phone_number: str, call_date: str, call_duration: str, c
 
     if contact_email or contact_phone:
         contact = db.query(Contact).filter(
-            (Contact.phone == contact_phone) | (Contact.email == contact_email)
+            (Contact.phone == contact_phone)
         ).first()
         if not contact:
             contact_data = ContactCreate(

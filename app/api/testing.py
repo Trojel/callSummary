@@ -37,5 +37,5 @@ def get_company():
 
 @router.get("/get-contact")
 def get_contact():
-    get_contact_info("+447824367444")
+    get_contact_info("+460107470088")
     return {"status": "success", "message": "got contact info"}

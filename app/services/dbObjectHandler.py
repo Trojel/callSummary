@@ -13,6 +13,7 @@ import datetime
 def handleDBObjects(db, phone_number: str, call_date: str, call_duration: str, call_summary: str, call_result: str):
     
     formatted_phone_number = phone_number.replace(" ", "")
+    print(f"Formatted phone number: {formatted_phone_number}")
     contact = get_contact_info(formatted_phone_number)
     if contact:
         company = get_company_from_contactID(contact["id"])

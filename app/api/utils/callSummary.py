@@ -4,7 +4,7 @@ from app.pydantic_schemas.CallSummary import CallSummaryCreate, CallSummaryRespo
 from datetime import datetime, timezone
 
 
-def get_callSummaries(db: Session, skip: int = 0, limit: int = 100, start_date: str = None, end_date: str = None, filterResolved: bool = True, filterUnresolved: bool = True):
+def get_callSummaries(db: Session, skip: int = 0, start_date: str = None, end_date: str = None, filterResolved: bool = True, filterUnresolved: bool = True):
     print("Filter Resolved: ", filterResolved)
     query = db.query(CallSummary)
     if start_date:
@@ -13,15 +13,15 @@ def get_callSummaries(db: Session, skip: int = 0, limit: int = 100, start_date: 
         query = query.filter(CallSummary.call_date <= datetime.fromtimestamp(int(end_date), tz=timezone.utc))
     
     if filterResolved and filterUnresolved:
-        return query.offset(skip).limit(limit).all()
+        return query.offset(skip).all()
     
     if filterResolved:
-        return query.filter(CallSummary.call_result == "resolved").offset(skip).limit(limit).all()
+        return query.filter(CallSummary.call_result == "resolved").offset(skip).all()
     
     if filterUnresolved:
-        return query.filter(CallSummary.call_result == "unresolved").offset(skip).limit(limit).all()
+        return query.filter(CallSummary.call_result == "unresolved").offset(skip).all()
     
-    return query.offset(skip).limit(limit).all()
+    return query.offset(skip).all()
 
 def get_callSummary_by_id(db: Session, callSummary_id: int):
     return db.query(CallSummary).filter(CallSummary.id == callSummary_id).first()

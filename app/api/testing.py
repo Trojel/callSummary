@@ -1,5 +1,8 @@
+from typing import List
 from fastapi import APIRouter, Depends
+from pydantic import BaseModel
 from app.utils.slackNotification import send_slack_message
+from app.utils.audio_processing import generate_report
 from app.utils.helpers import get_tags
 from app.api.utils.callSummary import get_callSummaries, get_callSummary_by_id, create_callSummary
 from app.db.db_setup import get_db, Session
@@ -37,5 +40,25 @@ def get_company():
 
 @router.get("/get-contact")
 def get_contact():
+    get_contact_info("+447824367444")
+    return {"status": "success", "message": "got contact info"}
+
+
+@router.get("/callsummaries")
+async def get_callsummaries(db: Session = Depends(get_db), start_date: str = None, end_date: str = None, filterResolved: bool = True, filterUnresolved: bool = True):
+    return get_callSummaries(db=db, start_date=start_date, end_date=end_date, filterResolved=filterResolved, filterUnresolved=filterUnresolved)
+
+  class ReportRequest(BaseModel):
+    summarries: str
+
+@router.post("/report")
+async def handle_generate_report(request: ReportRequest):
+    try:
+        print("Summaries: ", request.summarries)
+        return await generate_report(summarries=request.summarries)
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
     get_contact_info("+460107470088")
     return {"status": "success", "message": "got contact info"}
+

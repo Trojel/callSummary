@@ -59,6 +59,3 @@ async def handle_generate_report(request: ReportRequest):
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
-    get_contact_info("+460107470088")
-    return {"status": "success", "message": "got contact info"}
-

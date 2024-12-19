@@ -48,7 +48,7 @@ def get_contact():
 async def get_callsummaries(db: Session = Depends(get_db), start_date: str = None, end_date: str = None, filterResolved: bool = True, filterUnresolved: bool = True):
     return get_callSummaries(db=db, start_date=start_date, end_date=end_date, filterResolved=filterResolved, filterUnresolved=filterUnresolved)
 
-class ReportRequest(BaseModel):
+  class ReportRequest(BaseModel):
     summarries: str
 
 @router.post("/report")
@@ -58,3 +58,7 @@ async def handle_generate_report(request: ReportRequest):
         return await generate_report(summarries=request.summarries)
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+    get_contact_info("+460107470088")
+    return {"status": "success", "message": "got contact info"}
+

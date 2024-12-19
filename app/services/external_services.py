@@ -53,7 +53,7 @@ def get_contact_info(phone_number):
         filter_group = FilterGroup(filters=[filter])
         search_request = PublicObjectSearchRequest(
             filter_groups=[filter_group],
-            properties=["phone", "firstname", "email"]
+            properties=["phone", "firstname", "lastname", "email"]
         )
 
         # Execute the search
@@ -63,13 +63,14 @@ def get_contact_info(phone_number):
             contact_info = {
                 "id": contact.id,
                 "firstname": contact.properties.get("firstname"),
+                "lastname": contact.properties.get("lastname"),
                 "email": contact.properties.get("email"),
                 "phone": contact.properties.get("phone"),
             }
             print(f"Contact info retrieved: {contact_info}")
             return contact_info
         else:
-            print("No contact found with that phone number.")
+            print(f"No contact found with phone number: {phone_number}")
             return None
     except ApiException as e:
         print(f"Exception when calling HubSpot API: {e}")

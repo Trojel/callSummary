@@ -25,7 +25,7 @@ class Contact(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String, nullable=False, index=True)
-    last_name = Column(String, nullable=False, index=True)
+    last_name = Column(String, nullable=True, index=True)
     email = Column(String, unique=True, index=True)
     phone = Column(String, index=True, nullable=False, unique=True)
     company_id = Column(Integer, ForeignKey('companies.id', ondelete='SET NULL'), nullable=True)

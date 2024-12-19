@@ -2,6 +2,7 @@ import requests
 from io import BytesIO
 from openai import OpenAI
 import json
+from typing import List
 from app.config.settings import OPENAI_API_KEY
 from app.config.headers import AIRCALL_HEADERS
 
@@ -60,3 +61,37 @@ def generate_summary(transcription):
         raise ValueError(f"Failed to parse JSON from GPT response: {e}\nResponse: {response_text}")
 
     return summary_data
+
+
+
+async def generate_report(summarries: str):
+
+
+    completion = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {
+                "role": "system",
+                "content": '''You are an AI assistant analyzing a collection of support call summaries. 
+                Your task is to generate a report summarizing the key themes, common issues, and recurring questions raised by customers. 
+                Identify major problem areas, any patterns, and areas for improvement. 
+                Your job is to generate a JSON object with the following keys: 
+                - "key_themes": a short point summary of repeating features and themes of user's questions.
+                - "common_issues": the common issues reported by users.
+                - "Areas_for_improvement": the areas that need improvement.
+                Always return valid JSON without any code block formatting like ```json.'''
+            },
+            {
+                "role": "user",
+                "content": f"{summarries}",
+            }
+        ]
+    )
+     # Parse the JSON response from GPT
+    response_text = completion.choices[0].message.content
+    try:
+        report_data = json.loads(response_text)  # Convert JSON string to a Python dictionary
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Failed to parse JSON from GPT response: {e}\nResponse: {response_text}")
+
+    return report_data

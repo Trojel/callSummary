@@ -50,7 +50,7 @@ export default defineConfig((/* ctx */) => {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      // publicPath: '/',
+      publicPath: '/callsummary-frontend-quasar-proj/',
       // analyze: true,
       // env: {},
       // rawDefine: {}

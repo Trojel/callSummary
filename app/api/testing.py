@@ -57,5 +57,6 @@ async def handle_generate_report(request: ReportRequest):
         print("Summaries: ", request.summarries)
         return await generate_report(summarries=request.summarries)
     except Exception as e:
+        print("Something went wrong with report generation")
         return {"status": "error", "message": str(e)}
 

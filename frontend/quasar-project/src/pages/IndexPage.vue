@@ -124,7 +124,7 @@ const columns = ref([
 async function generateReport (): Promise<void> {
   showReport.value = true
   try {
-    const response = await fetch('http://127.0.0.1:8000/report', {
+    const response = await fetch('https://coral-app-c58z6.ondigitalocean.app/report', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

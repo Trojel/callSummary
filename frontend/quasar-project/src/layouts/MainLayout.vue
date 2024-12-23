@@ -6,7 +6,7 @@
 
         <q-toolbar-title>
           <q-icon class = "q-ma-md">
-            <img src="/icons/SPRII__Logomark_orange.png" style="width: 40px; height: 40px;" />
+            <img src="dashboard/icons/SPRII__Logomark_orange.png" style="width: 40px; height: 40px;" />
           </q-icon >
           Sprii Call Insights
         </q-toolbar-title>

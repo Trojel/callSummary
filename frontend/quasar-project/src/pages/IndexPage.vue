@@ -52,6 +52,11 @@ export interface Row {
   call_result: string
   call_duration: string
   contact_id: number
+  call_date: string
+  first_name: string
+  last_name: string
+  phone: string
+  company_name: string
 }
 
 interface Report {
@@ -72,8 +77,11 @@ const rows = ref<Row[]>([])
 provide('rows', rows)
 
 onMounted(async () => {
+  console.log('onMounted is running...') // ✅ Check if this prints
+
   try {
     rows.value = await getRows(dateRange.value, true, true)
+    console.log('Fetched rows:', rows.value) // ✅ Check API response
   } catch (error) {
     console.error('Error fetching data:', error)
   }
@@ -87,6 +95,41 @@ const columns = ref([
     align: 'left' as const,
     field: (row: Row) => row.id,
     format: (val: string) => `${val}`,
+  },
+  {
+    name: 'call_date',
+    label: 'Call Date',
+    align: 'center' as const,
+    field: (row: Row) => row.call_date,
+    format: (val: string) => new Date(val).toLocaleString(),
+  },
+  {
+    name: 'first_name',
+    label: 'First Name',
+    align: 'center' as const,
+    field:(row: Row) => row.first_name,
+    format: (val: string) => `${val}`,
+  },
+  {
+    name: 'last_name',
+    label: 'Last Name',
+    align: 'center' as const,
+    field: (row: Row) => row.last_name,
+    format: (val: string) => `${val}`,
+  },
+  {
+    name: 'phone',
+    label: 'Phone',
+    align: 'center' as const,
+    field: (row: Row) => row.phone,
+    format: (val: string) => `${val}`,
+  },
+  {
+    name: 'company_name',
+    label: 'Company Name',
+    align: 'center' as const,
+    field: (row: Row) => row.company_name,
+    format: (val: Row) => `${val}`,
   },
   {
     name: 'Summary',

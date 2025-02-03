@@ -11,17 +11,30 @@ def get_callSummaries(db: Session, skip: int = 0, start_date: str = None, end_da
         query = query.filter(CallSummary.call_date >= datetime.fromtimestamp(int(start_date), tz=timezone.utc))
     if end_date:
         query = query.filter(CallSummary.call_date <= datetime.fromtimestamp(int(end_date), tz=timezone.utc))
-    
+
     if filterResolved and filterUnresolved:
-        return query.offset(skip).all()
-    
-    if filterResolved:
-        return query.filter(CallSummary.call_result == "resolved").offset(skip).all()
-    
-    if filterUnresolved:
-        return query.filter(CallSummary.call_result == "unresolved").offset(skip).all()
-    
-    return query.offset(skip).all()
+        pass  # both True, use query as is
+    elif filterResolved:
+        query = query.filter(CallSummary.call_result == "resolved")
+    elif filterUnresolved:
+        query = query.filter(CallSummary.call_result == "unresolved")
+
+    results = query.offset(skip).all()
+    result_list = []
+    for cs in results:
+        result_list.append({
+            "id": cs.id,
+            "summary": cs.summary,
+            "call_result": cs.call_result,
+            "call_duration": cs.call_duration,
+            "call_date": cs.call_date,
+            "contact_id": cs.contact_id,
+            "first_name": cs.contact.first_name if cs.contact else None,
+            "last_name": cs.contact.last_name if cs.contact else None,
+            "phone": cs.contact.phone if cs.contact else None,
+            "company_name": cs.contact.company.name if cs.contact and cs.contact.company else None
+        })
+    return result_list
 
 def get_callSummary_by_id(db: Session, callSummary_id: int):
     return db.query(CallSummary).filter(CallSummary.id == callSummary_id).first()

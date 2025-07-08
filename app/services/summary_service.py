@@ -21,8 +21,7 @@ def process_call_summary(db: Session, call_id, url, phone_number, call_date, cal
     send_slack_message("C07U57YU127", phone_number, summary)
 
     # Step 4: Save data to the database
-    DBdata = handleDBObjects(db, phone_number, call_date, call_duration, summary["summary"], summary["resolution_status"])
-    print(DBdata)
+    #DBdata = handleDBObjects(db, phone_number, call_date, call_duration, summary["summary"], summary["resolution_status"])
 
 
 
